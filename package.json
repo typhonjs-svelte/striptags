@@ -28,7 +28,8 @@
     },
     "types": "./types/index.d.ts",
     "files": [
-        "dist/"
+        "dist/",
+        "types/"
     ],
     "devDependencies": {
         "@rollup/plugin-typescript": "^8.5.0",
