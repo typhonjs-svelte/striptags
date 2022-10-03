@@ -36,12 +36,12 @@
         "@types/jest": "^26.0.15",
         "@typescript-eslint/eslint-plugin": "^5.39.0",
         "@typescript-eslint/parser": "^5.39.0",
-        "@typhonjs-build-test/esm-d-ts": "^0.0.5",
         "eslint": "^7.14.0",
         "eslint-plugin-prettier": "^3.1.4",
         "jest": "^26.6.1",
         "prettier": "^2.2.0",
         "rollup": "^2.79.1",
+        "rollup-plugin-dts": "4.2.2",
         "ts-jest": "^26.4.3",
         "tslib": "^2.4.0",
         "typescript": "^4.8.4"
@@ -50,7 +50,6 @@
         "build": "rollup -c",
         "test": "jest",
         "lint": "eslint .",
-        "prepublishOnly": "eslint . && rollup -c",
-        "types": "node -e \"import('@typhonjs-build-test/esm-d-ts').then(module => { module.generateTSDef({ main: './dist/es6/striptags.js', output: './types/index.d.ts' }) });\""
+        "prepublishOnly": "eslint . && rollup -c"
     }
 }

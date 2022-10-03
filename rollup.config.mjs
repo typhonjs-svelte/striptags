@@ -1,3 +1,4 @@
+import dts        from "rollup-plugin-dts";
 import typescript from "@rollup/plugin-typescript";
 
 export default [
@@ -22,5 +23,17 @@ export default [
             },
         ],
         plugins: [typescript()],
+    },
+    {
+        input: "dist/es6/striptags.d.ts",
+        output: [
+            {
+                format: "es",
+                file: "./types/index.d.ts",
+            },
+        ],
+        plugins: [
+            dts()
+        ],
     },
 ];

@@ -1,18 +1,17 @@
-declare namespace DefaultStateMachineOptions {
-    const tagReplacementText: string;
-    const encodePlaintextTagDelimiters: boolean;
-}
-declare class StateMachine {
-    constructor(partialOptions?: {});
-    state: InPlaintextState;
-    transitionFunction: any;
-    consume(text: any): string;
-}
-declare function striptags(text: any, options?: {}): string;
-declare class InPlaintextState {
-    constructor(options: any);
-    options: any;
-    consume(character: any, transition: any): any;
+interface StateMachineOptions {
+    readonly allowedTags?: Set<string>;
+    readonly disallowedTags?: Set<string>;
+    readonly tagReplacementText: string;
+    readonly encodePlaintextTagDelimiters: boolean;
 }
 
-export { DefaultStateMachineOptions, StateMachine, striptags };
+declare const DefaultStateMachineOptions: StateMachineOptions;
+declare class StateMachine {
+    private state;
+    private transitionFunction;
+    constructor(partialOptions?: Partial<StateMachineOptions>);
+    consume(text: string): string;
+}
+declare function striptags(text: string, options?: Partial<StateMachineOptions>): string;
+
+export { DefaultStateMachineOptions, StateMachine, StateMachineOptions, striptags };
