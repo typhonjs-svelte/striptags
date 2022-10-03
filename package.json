@@ -10,6 +10,7 @@
     "homepage": "https://github.com/ericnorris/striptags",
     "bugs": "https://github.com/ericnorris/striptags/issues",
     "version": "4.0.0-alpha.2",
+    "type": "module",
     "keywords": [
         "striptags",
         "strip_tags",
@@ -17,9 +18,14 @@
         "strip",
         "tags"
     ],
-    "main": "dist/cjs/striptags.js",
-    "module": "dist/es6/striptags.js",
-    "types": "dist/es6/striptags.d.ts",
+    "exports": {
+        ".": {
+            "types": "./dist/es6/striptags.d.ts",
+            "import": "./dist/es6/striptags.js",
+            "require": "./dist/cjs/striptags.js"
+        }
+    },
+    "types": "./dist/es6/striptags.d.ts",
     "files": [
         "dist/"
     ],
@@ -38,6 +44,7 @@
         "typescript": "^4.0.5"
     },
     "scripts": {
+        "build": "rollup -c",
         "test": "jest",
         "lint": "eslint .",
         "prepublishOnly": "eslint . && rollup -c"
