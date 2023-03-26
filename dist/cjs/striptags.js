@@ -1,7 +1,5 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
-
 function isSpace(character) {
     return character == " " || character == "\n" || character == "\r" || character == "\t";
 }
