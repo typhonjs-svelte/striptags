@@ -11,6 +11,7 @@ const TAG_END = ">";
 const ENCODED_TAG_START = "&lt;";
 const ENCODED_TAG_END = "&gt;";
 class InPlaintextState {
+    options;
     constructor(options) {
         this.options = options;
     }
@@ -26,10 +27,11 @@ class InPlaintextState {
     }
 }
 class InTagNameState {
+    options;
+    nameBuffer = "";
+    isClosingTag = false;
     constructor(options) {
         this.options = options;
-        this.nameBuffer = "";
-        this.isClosingTag = false;
     }
     consume(character, transition) {
         if (this.nameBuffer.length == 0) {
@@ -87,6 +89,8 @@ class InTagNameState {
     }
 }
 class InTagState {
+    mode;
+    options;
     constructor(mode, options) {
         this.mode = mode;
         this.options = options;
@@ -110,6 +114,9 @@ class InTagState {
     }
 }
 class InQuotedStringInTagState {
+    mode;
+    quoteCharacter;
+    options;
     constructor(mode, quoteCharacter, options) {
         this.mode = mode;
         this.quoteCharacter = quoteCharacter;
@@ -134,9 +141,10 @@ class InQuotedStringInTagState {
     }
 }
 class InCommentState {
+    options;
+    consecutiveHyphens = 0;
     constructor(options) {
         this.options = options;
-        this.consecutiveHyphens = 0;
     }
     consume(character, transition) {
         if (character == ">" && this.consecutiveHyphens >= 2) {
@@ -157,8 +165,13 @@ const DefaultStateMachineOptions = {
     encodePlaintextTagDelimiters: true,
 };
 class StateMachine {
+    state;
+    transitionFunction;
     constructor(partialOptions = {}) {
-        this.state = new InPlaintextState(Object.assign(Object.assign({}, DefaultStateMachineOptions), partialOptions));
+        this.state = new InPlaintextState({
+            ...DefaultStateMachineOptions,
+            ...partialOptions,
+        });
         this.transitionFunction = ((next) => {
             this.state = next;
         }).bind(this);
