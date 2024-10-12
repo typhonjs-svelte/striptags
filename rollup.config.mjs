@@ -1,39 +1,29 @@
-import dts        from "rollup-plugin-dts";
-import typescript from "@rollup/plugin-typescript";
+import typescript       from "@rollup/plugin-typescript";
+import { generateDTS }  from "@typhonjs-build-test/esm-d-ts";
 
 export default [
     {
         input: "src/striptags.ts",
         output: [
             {
+                file: "dist/es6/striptags.js",
                 format: "es",
-                dir: "dist/es6",
+                generatedCode: { constBindings: true },
             },
         ],
         plugins: [
-            typescript({ declaration: true, declarationDir: "dist/es6", outDir: "dist/es6" }),
+           generateDTS.plugin({ output: './types/index.d.ts' }),
+           typescript(),
         ],
     },
     {
         input: "src/striptags.ts",
         output: [
             {
-                format: "cjs",
-                dir: "dist/cjs",
+                file: "dist/cjs/striptags.js",
+                format: "cjs"
             },
         ],
         plugins: [typescript()],
-    },
-    {
-        input: "dist/es6/striptags.d.ts",
-        output: [
-            {
-                format: "es",
-                file: "./types/index.d.ts",
-            },
-        ],
-        plugins: [
-            dts()
-        ],
-    },
+    }
 ];
